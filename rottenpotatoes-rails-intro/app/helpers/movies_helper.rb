@@ -3,4 +3,8 @@ module MoviesHelper
   def oddness(count)
     count.odd? ?  "odd" :  "even"
   end
+  
+  def header_style(header_type)
+    params[:sort] == header_type ? "hilite" : ""
+  end
 end
