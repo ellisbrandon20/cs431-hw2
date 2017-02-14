@@ -11,12 +11,33 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @all_ratings = Movie.ratings
+
     @sort = params[:sort]
-    if @sort.nil?
-      @movies = Movie.all
-    else
-      @movies = Movie.order(@sort).all
+    @ratings = params[:ratings]
+    if !@ratings.nil? then puts "----------- #{@ratings.keys}" end
+    
+    # if !@ratings.nil?
+    #   # @all_ratings = @ratings.keys # find way to use this to check those boxes
+    # end
+    
+    # @movies = Movie.where!({rating: @ratings.keys}).order(@sort)
+    
+    if !@sort.nil?
+      @movies = Movie.order(@sort)
     end
+    
+    if !@ratings.nil?
+      @movies.where!({rating: @ratings.keys})
+    end
+    
+    if !@sort.nil? and !@ratings.nil?
+      @movies = Movie.where!({rating: @ratings.keys}).order(@sort)
+    end
+    
+    
+    
+    
   end
 
   def new
