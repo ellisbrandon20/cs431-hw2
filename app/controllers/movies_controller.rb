@@ -36,6 +36,8 @@ class MoviesController < ApplicationController
       @movies = Movie.where!({rating: @ratings.keys}).order(@sort)
     end
     
+    if @ratings.nil? then @ratings = Movie.ratings end
+    
   end
 
   def new
