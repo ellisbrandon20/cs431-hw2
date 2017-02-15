@@ -36,9 +36,6 @@ class MoviesController < ApplicationController
       @movies = Movie.where!({rating: @ratings.keys}).order(@sort)
     end
     
-    
-    
-    
   end
 
   def new
