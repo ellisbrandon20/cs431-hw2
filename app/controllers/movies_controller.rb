@@ -12,31 +12,34 @@ class MoviesController < ApplicationController
 
   def index
     @movies = Movie.all
-    @all_ratings = Movie.ratings
-
-    @sort = params[:sort]
-    @ratings = params[:ratings]
-    if !@ratings.nil? then puts "----------- #{@ratings.keys}" end
+    @all_ratings = Movie.ratings # used to generate check boxes
     
-    # if !@ratings.nil?
-    #   # @all_ratings = @ratings.keys # find way to use this to check those boxes
-    # end
     
-    # @movies = Movie.where!({rating: @ratings.keys}).order(@sort)
+    # if params is nil then look for value in the session
+    @sort = params[:sort] ? params[:sort] : session[:sort]
+    
+    # if params is nil then look for value in the session
+    @ratings = params[:ratings] ? params[:ratings] : session[:ratings]
+    
+    puts "-------------@sort = #{params[:sort]}"
+    puts "-------------@ratings params = #{params[:ratings]}"
+    puts "-------------@ratings session = #{session[:ratings]}"
+    puts "-------------@ratings = #{@ratings.keys}"
+    
     
     if !@sort.nil?
-      @movies = Movie.order(@sort)
+      @movies = @movies.order(@sort)
     end
-    
     if !@ratings.nil?
-      @movies.where!({rating: @ratings.keys})
+      @movies = @movies.where({rating: @ratings.keys})
     end
     
-    if !@sort.nil? and !@ratings.nil?
-      @movies = Movie.where!({rating: @ratings.keys}).order(@sort)
-    end
-    
+    # # for check boxes - makes all checked if this is nil (i.e. all movie ratings are showing so check them all)
+    # # b/c having none of the boxes checked doesnt make sense 
     if @ratings.nil? then @ratings = Movie.ratings end
+      
+    session[:sort] = @sort
+    session[:ratings] = @ratings
     
   end
 

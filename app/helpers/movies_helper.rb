@@ -5,6 +5,6 @@ module MoviesHelper
   end
   
   def header_style(header_type)
-    params[:sort] == header_type ? "hilite" : ""
+    @sort == header_type ? "hilite" : ""
   end
 end
