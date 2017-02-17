@@ -11,6 +11,7 @@ class MoviesController < ApplicationController
   end
 
   def index
+    
     @movies = Movie.all
     @all_ratings = Movie.ratings # used to generate check boxes
     
@@ -21,17 +22,22 @@ class MoviesController < ApplicationController
     # if params is nil then look for value in the session
     @ratings = params[:ratings] ? params[:ratings] : session[:ratings]
     
-    puts "-------------@sort = #{params[:sort]}"
-    puts "-------------@ratings params = #{params[:ratings]}"
-    puts "-------------@ratings session = #{session[:ratings]}"
-    puts "-------------@ratings = #{@ratings.keys}"
+    # puts "-------------@sort = #{@sort}"
+    # puts "-------------@sort session= #{session[:sort]}"
+    # puts "-------------@ratings params = #{params[:ratings]}"
+    # puts "-------------@ratings session = #{session[:ratings]}"
+    # puts "-------------@ratings = #{@ratings}"
+    # ?utf8=✓&ratings%5BG%5D=1&commit=Refresh
     
     
     if !@sort.nil?
       @movies = @movies.order(@sort)
     end
     if !@ratings.nil?
-      @movies = @movies.where({rating: @ratings.keys})
+      if @ratings.kind_of?(Array) 
+        @movies = @movies.where(@ratings) 
+        # puts "----**** HERE ***-----"
+      else @movies = @movies.where({rating: @ratings.keys}) end
     end
     
     # # for check boxes - makes all checked if this is nil (i.e. all movie ratings are showing so check them all)

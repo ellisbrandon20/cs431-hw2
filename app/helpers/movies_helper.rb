@@ -5,6 +5,7 @@ module MoviesHelper
   end
   
   def header_style(header_type)
-    @sort == header_type ? "hilite" : ""
+    # puts "---- helper @sort = #{@sort}"
+    session[:sort] == header_type ? "hilite" : ""
   end
 end
